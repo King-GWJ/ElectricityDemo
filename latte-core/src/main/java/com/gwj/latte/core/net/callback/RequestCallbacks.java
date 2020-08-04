@@ -1,7 +1,5 @@
 package com.gwj.latte.core.net.callback;
 
-import android.util.Log;
-
 import java.io.IOException;
 
 import okhttp3.ResponseBody;
