@@ -1,0 +1,7 @@
+include ':retrofit'
+include ':latte-core'
+include ':latte-ec'
+include ':latte-compiler'
+include ':latte-annotations'
+include ':app'
+rootProject.name = "ElectricityDemo"
