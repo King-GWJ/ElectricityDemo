@@ -1,5 +1,6 @@
 package com.gwj.latte.core.app;
 
+import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
@@ -18,5 +19,17 @@ public final class Latte {
 
     public static HashMap<String, Object> getConfigurations() {
         return Configurator.getLatteConfigs();
+    }
+
+    public static Configurator getConfigurator() {
+        return Configurator.getInstance();
+    }
+
+    public static <T> T getConfiguration(Object key) {
+        return getConfigurator().getConfiguration(key);
+    }
+
+    public static Application getApplicationContext() {
+        return getConfiguration(ConfigType.APPLICATION_CONTEXT);
     }
 }

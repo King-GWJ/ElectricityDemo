@@ -2,7 +2,7 @@ package com.gwj.latte.core.net;
 
 import com.gwj.latte.core.net.callback.IError;
 import com.gwj.latte.core.net.callback.IFailure;
-import com.gwj.latte.core.net.callback.IResponse;
+import com.gwj.latte.core.net.callback.IRequest;
 import com.gwj.latte.core.net.callback.ISuccess;
 
 import java.io.File;
@@ -21,12 +21,15 @@ public class RestClientBuilder {
 
     private String mUrl;
     private static final Map<String, Object> mParams = RestCreatro.getParams();
-    private IResponse mIResponse;
+    private IRequest mIRequest;
     private ISuccess mISuccess;
     private IFailure mIFailure;
     private IError mIError;
     private RequestBody mBody;
     private File mFile;
+    private String mDownload_dir;
+    private String mExtension;
+    private String mName;
 
     RestClientBuilder() {
 
@@ -62,8 +65,23 @@ public class RestClientBuilder {
         return this;
     }
 
-    public final RestClientBuilder onResponse(IResponse response) {
-        this.mIResponse = response;
+    public final RestClientBuilder dir(String dir) {
+        this.mDownload_dir = dir;
+        return this;
+    }
+
+    public final RestClientBuilder extension(String extension) {
+        this.mExtension = extension;
+        return this;
+    }
+
+    public final RestClientBuilder name(String name) {
+        this.mName = name;
+        return this;
+    }
+
+    public final RestClientBuilder onResponse(IRequest response) {
+        this.mIRequest = response;
         return this;
     }
 
@@ -90,7 +108,7 @@ public class RestClientBuilder {
     }
 
     public final RestClient build() {
-        return new RestClient(mUrl, mParams, mIResponse, mISuccess, mIFailure, mIError, mBody,mFile);
+        return new RestClient(mUrl, mParams, mIRequest, mISuccess, mIFailure, mIError, mBody,mFile,mDownload_dir,mExtension,mName);
     }
 
 

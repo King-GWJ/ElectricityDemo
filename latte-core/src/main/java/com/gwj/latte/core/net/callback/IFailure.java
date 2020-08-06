@@ -6,5 +6,5 @@ package com.gwj.latte.core.net.callback;
  * @Explain:
  */
 public interface IFailure {
-    void onFailure(String msg);
+    void onFailure();
 }

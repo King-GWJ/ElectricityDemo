@@ -62,15 +62,19 @@ public class Configurator {
         return this;
     }
 
-    private void checkConfigurtion() {
+    private void checkConfiguration() {
         final boolean isReady = (boolean) LATTE_CONFIGS.get(ConfigType.COINFIG_READY.name());
         if (!isReady) {
             throw new RuntimeException("Configuration is not read,call configure");
         }
     }
 
-    final <T> T getConfiguration(Enum<ConfigType> key) {
-        checkConfigurtion();
+    final <T> T getConfiguration(Object key) {
+        checkConfiguration();
+        final Object value = LATTE_CONFIGS.get(key);
+        if (value == null) {
+            throw new NullPointerException(key.toString() + " IS NULL");
+        }
         return (T) LATTE_CONFIGS.get(key);
     }
 

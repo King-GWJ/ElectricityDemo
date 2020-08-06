@@ -13,12 +13,12 @@ import retrofit2.Response;
  * @Explain:
  */
 public class RequestCallbacks implements Callback<ResponseBody> {
-    private final IResponse RESPONSE;
+    private final IRequest RESPONSE;
     private final ISuccess SUCCESS;
     private final IFailure FAILURE;
     private final IError ERROR;
 
-    public RequestCallbacks(IResponse response, ISuccess success, IFailure failure, IError error) {
+    public RequestCallbacks(IRequest response, ISuccess success, IFailure failure, IError error) {
         this.RESPONSE = response;
         this.SUCCESS = success;
         this.FAILURE = failure;
@@ -49,10 +49,10 @@ public class RequestCallbacks implements Callback<ResponseBody> {
     @Override
     public void onFailure(Call<ResponseBody> call, Throwable t) {
         if (FAILURE != null) {
-            FAILURE.onFailure(t.getMessage());
+            FAILURE.onFailure();
         }
         if (RESPONSE != null) {
-            RESPONSE.onResponseEnd();
+            RESPONSE.onRequestEnd();
         }
     }
 

@@ -46,8 +46,7 @@ public class ExampleDelegate extends LatteDelegate {
                 })
                 .failure(new IFailure() {
                     @Override
-                    public void onFailure(String msg) {
-                        Log.d("ggg", "failure:"+msg);
+                    public void onFailure() {
 
                     }
                 })

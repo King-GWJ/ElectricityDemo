@@ -2,9 +2,10 @@ package com.gwj.latte.core.net;
 
 import com.gwj.latte.core.net.callback.IError;
 import com.gwj.latte.core.net.callback.IFailure;
-import com.gwj.latte.core.net.callback.IResponse;
+import com.gwj.latte.core.net.callback.IRequest;
 import com.gwj.latte.core.net.callback.ISuccess;
 import com.gwj.latte.core.net.callback.RequestCallbacks;
+import com.gwj.latte.core.net.download.DownloadHandler;
 
 import java.io.File;
 import java.util.Map;
@@ -15,7 +16,6 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.http.Url;
 
 /**
  * @Author: GWJ
@@ -26,29 +26,38 @@ public class RestClient {
 
     private final String URL;
     private static final Map<String, Object> PARAMS = RestCreatro.getParams();
-    private final IResponse RESPONSE;
+    private final IRequest REQUEST;
     private final ISuccess SUCCESS;
     private final IFailure FAILURE;
     private final IError ERROR;
     private final RequestBody BODY;
     private final File FILE;
+    private final String DOWNLOAD_DIR;
+    private final String EXTENSION;
+    private final String NAME;
 
     public RestClient(String url,
                       Map<String, Object> params,
-                      IResponse response,
+                      IRequest request,
                       ISuccess success,
                       IFailure failure,
                       IError error,
                       RequestBody body,
-                      File file) {
+                      File file,
+                      String download_dir,
+                      String extension,
+                      String name) {
         this.URL = url;
         this.PARAMS.putAll(params);
-        this.RESPONSE = response;
+        this.REQUEST = request;
         this.SUCCESS = success;
         this.FAILURE = failure;
         this.ERROR = error;
         this.BODY = body;
         this.FILE = file;
+        this.DOWNLOAD_DIR = download_dir;
+        this.EXTENSION = extension;
+        this.NAME = name;
     }
 
     public static RestClientBuilder builder() {
@@ -58,8 +67,8 @@ public class RestClient {
     private void request(HttpMethod method) {
         final RestService service = RestCreatro.getRestService();
         Call<ResponseBody> call = null;
-        if (RESPONSE != null) {
-            RESPONSE.onResponseStart();
+        if (REQUEST != null) {
+            REQUEST.onRequestStart();
         }
 
         switch (method) {
@@ -83,8 +92,8 @@ public class RestClient {
                 break;
             case UPLOAD:
                 final RequestBody requestBody = RequestBody.create(MediaType.parse(MultipartBody.FORM.toString()), FILE);
-                final MultipartBody.Part file = MultipartBody.Part.createFormData("file", FILE.getName(),requestBody);
-                call=RestCreatro.getRestService().upload(URL, file);
+                final MultipartBody.Part file = MultipartBody.Part.createFormData("file", FILE.getName(), requestBody);
+                call = RestCreatro.getRestService().upload(URL, file);
                 break;
             default:
                 break;
@@ -96,7 +105,7 @@ public class RestClient {
     }
 
     private Callback<ResponseBody> getRequestCallback() {
-        return new RequestCallbacks(RESPONSE, SUCCESS, FAILURE, ERROR);
+        return new RequestCallbacks(REQUEST, SUCCESS, FAILURE, ERROR);
     }
 
     public final void get() {
@@ -129,5 +138,12 @@ public class RestClient {
         request(HttpMethod.DELETE);
     }
 
+    public final void upload() {
+        request(HttpMethod.UPLOAD);
+    }
+
+    public final void download() {
+        new DownloadHandler(URL, REQUEST, SUCCESS, FAILURE, ERROR, DOWNLOAD_DIR, EXTENSION, NAME).handlerDownload();
+    }
 
 }
