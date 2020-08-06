@@ -17,7 +17,7 @@ public class App extends Application {
         super.onCreate();
         Latte.init(this)
                 .withIcon(new FontAwesomeModule())
-                .withApiHost("https://www.wanandroid.com")
+                .withApiHost("https://gank.io/api/v2/")
                 .configure();
 
     }

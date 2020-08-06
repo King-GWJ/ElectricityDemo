@@ -12,6 +12,10 @@ import com.gwj.latte.core.net.callback.IError;
 import com.gwj.latte.core.net.callback.IFailure;
 import com.gwj.latte.core.net.callback.ISuccess;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class ExampleDelegate extends LatteDelegate {
 
@@ -27,12 +31,17 @@ public class ExampleDelegate extends LatteDelegate {
 
     private void textRestClient() {
         RestClient.builder()
-                .url("article/list/0/json")
-                .params("cid", "60")
+                .url("banners")
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
                         Log.d("ggg", "json:"+response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 })
                 .failure(new IFailure() {
