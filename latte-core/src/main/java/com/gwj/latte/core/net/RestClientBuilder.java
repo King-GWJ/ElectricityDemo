@@ -5,6 +5,7 @@ import com.gwj.latte.core.net.callback.IFailure;
 import com.gwj.latte.core.net.callback.IResponse;
 import com.gwj.latte.core.net.callback.ISuccess;
 
+import java.io.File;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -25,6 +26,7 @@ public class RestClientBuilder {
     private IFailure mIFailure;
     private IError mIError;
     private RequestBody mBody;
+    private File mFile;
 
     RestClientBuilder() {
 
@@ -42,6 +44,16 @@ public class RestClientBuilder {
 
     public final RestClientBuilder params(String key, Object value) {
         mParams.put(key, value);
+        return this;
+    }
+
+    public final RestClientBuilder file(File file) {
+        this.mFile=file;
+        return this;
+    }
+
+    public final RestClientBuilder file(String file) {
+        this.mFile=new File(file);
         return this;
     }
 
@@ -78,7 +90,7 @@ public class RestClientBuilder {
     }
 
     public final RestClient build() {
-        return new RestClient(mUrl, mParams, mIResponse, mISuccess, mIFailure, mIError, mBody);
+        return new RestClient(mUrl, mParams, mIResponse, mISuccess, mIFailure, mIError, mBody,mFile);
     }
 
 

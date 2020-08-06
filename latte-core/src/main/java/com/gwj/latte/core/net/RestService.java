@@ -3,8 +3,10 @@ package com.gwj.latte.core.net;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -29,9 +31,16 @@ public interface RestService {
     @POST
     Call<ResponseBody> post(@Url String url, @QueryMap Map<String, Object> params);
 
+    @POST
+    Call<ResponseBody> postRam(@Url String url, @Body RequestBody body);
+
     @FormUrlEncoded
     @GET
     Call<ResponseBody> put(@Url String url, @QueryMap Map<String, Object> params);
+
+    @POST
+    Call<ResponseBody> putRam(@Url String url, @Body RequestBody body);
+
 
     @DELETE
     Call<ResponseBody> delete(@Url String url, @QueryMap Map<String, Object> params);
