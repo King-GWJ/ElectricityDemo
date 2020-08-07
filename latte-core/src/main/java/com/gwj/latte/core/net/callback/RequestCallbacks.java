@@ -43,7 +43,6 @@ public class RequestCallbacks implements Callback<ResponseBody> {
             }
         }
 
-
     }
 
     @Override
